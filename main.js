@@ -10,10 +10,12 @@ var inquirer = require("inquirer");
 //gets word choice from file
 var currentWord = wordFile.currentChoice;
 
-//store letters guessed and be able to export to words.js
+//store letters guessed
 var lettersGuessed = [];
 
-var guessesLeft = currentWord.length + 5;
+exports.selectedLetters = lettersGuessed;
+
+var guessesLeft = currentWord.length + 6;
 
 var loop = 0;
 

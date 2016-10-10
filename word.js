@@ -2,14 +2,15 @@ var mainFile = require("./main.js");
 var wordFile2 = require("./game.js");
 
 //gets letters guessed from main file
-var userLetters = mainFile.lettersGuessed;
+var userLetters = mainFile.selectedLetters;
 
 //gets current word from game.js file
 var currentWord2 = wordFile2.currentChoice;
 
-var guessesRemaining = currentWord2.length + 6;
+//var guessesRemaining = currentWord2.length + 6;
 
-var checkLetter = function() {
+console.log("user letters from words.js file " + userLetters);
 
+function HangmanWord() {
 
 }
