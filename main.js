@@ -11,7 +11,11 @@ var inquirer = require("inquirer");
 var currentWord = wordFile.currentChoice;
 
 //store letters guessed and be able to export to words.js
-exports.lettersGuessed = "";
+var lettersGuessed = [];
+
+var guessesLeft = currentWord.length + 5;
+
+var loop = 0;
 
 //for checking - show current word
 console.log(currentWord);
@@ -21,28 +25,33 @@ console.log("");
 console.log("Welcome to Hangman! The theme for this game is 'flowers.'");
 console.log("");
 
-var userLetters = function() {
+var userLetters = function(loop) {
 
-	inquirer.prompt({
-		type: "input",
-		name: "letter",
-		message: "Enter a letter."
-	}).then(function(guess){
-		//check if the entry is a letter
-/*		if (!(letter.match(/[a-z]/i))) { 
-			console.log("Your choice is not a letter.");
-		} 
-		// else, if the letter has already been chosen, tell them and don't add to letters chosen
-		else if (lettersGuessed.indexOf(letter) > -1) {
-			console.log("You already tried that letter! Please choose a different letter.");
-		}
-		//otherwise, add the letter to letters guessed
-		else {
-			lettersGuessed.push(guess.letter);
-		}*/
-		lettersGuessed.push(guess.letter);
-		console.log(lettersGuessed);
-	})
+	if (loop < guessesLeft) {
+		inquirer.prompt({
+			type: "input",
+			name: "letter",
+			message: "Enter a letter."
+		}).then(function(guess){
+			//check if the entry is a letter
+			if (!(guess.letter.match(/[a-z]/i))) { 
+				console.log("Your choice is not a letter.");
+			} 
+			// else, if the letter has already been chosen, tell them and don't add to letters chosen
+			else if (lettersGuessed.indexOf(guess.letter) > -1) {
+				console.log("You already tried that letter! Please choose a different letter.");
+			}
+			//otherwise, add the letter to letters guessed
+			else {
+				lettersGuessed.push(guess.letter);
+				loop++;
+			}
+			//lettersGuessed.push(guess.letter);
+			console.log(lettersGuessed);
+			userLetters(loop);
+		})
+	}
+//end of userletters function
 }
 
-userLetters();
+userLetters(loop);
