@@ -1,5 +1,6 @@
 var mainFile = require("./main.js");
 var wordFile2 = require("./game.js");
+var displayWord2 = require("./letter.js");
 
 //gets letters guessed from main file
 var userLetters = mainFile.selectedLetters;
@@ -11,6 +12,7 @@ var currentWord2 = wordFile2.currentChoice;
 
 console.log("user letters from words.js file " + userLetters);
 
-function HangmanWord() {
-
+exports.HangmanWord = function(word, letters) {
+	this.word = currentWord2;
+	this.letters = userLetters
 }

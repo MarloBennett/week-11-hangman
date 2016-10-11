@@ -47,13 +47,41 @@ var userLetters = function(loop) {
 			else {
 				lettersGuessed.push(guess.letter);
 				loop++;
+				//run functions to check letter and display word
+				checkLetter();
+
 			}
-			//lettersGuessed.push(guess.letter);
 			console.log(lettersGuessed);
 			userLetters(loop);
 		})
 	}
 //end of userletters function
 }
+
+
+/*function HangmanWord(word, letters) {
+	this.word = word;
+	this.letters = letters
+}
+
+var gameWord = new HangmanWord(currentWord, lettersGuessed);*/
+
+function checkLetter() {
+	var hangWord = "";
+
+	for (var i = 0; i < currentWord.length; i++) {
+		var currentWordLetter = currentWord[i];
+
+		if (lettersGuessed.indexOf(currentWordLetter) > -1) {
+			hangWord = hangWord + currentWordLetter;
+		}
+		else {
+			hangWord = hangWord + "_ ";
+		}
+	}
+	console.log("Your word:" + hangWord);
+}
+
+
 
 userLetters(loop);
