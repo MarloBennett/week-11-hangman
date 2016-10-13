@@ -29,31 +29,49 @@ console.log("");
 
 var userLetters = function(loop) {
 
-	if (loop < guessesLeft) {
-		inquirer.prompt({
-			type: "input",
-			name: "letter",
-			message: "Enter a letter."
-		}).then(function(guess){
-			//check if the entry is a letter
-			if (!(guess.letter.match(/[a-z]/i))) { 
-				console.log("Your choice is not a letter.");
-			} 
-			// else, if the letter has already been chosen, tell them and don't add to letters chosen
-			else if (lettersGuessed.indexOf(guess.letter) > -1) {
-				console.log("You already tried that letter! Please choose a different letter.");
-			}
-			//otherwise, add the letter to letters guessed
-			else {
-				lettersGuessed.push(guess.letter);
-				loop++;
-				//run functions to check letter and display word
-				checkLetter();
+	var hangWord = checkLetter();
 
-			}
-			console.log(lettersGuessed);
-			userLetters(loop);
-		})
+	if (hangWord.indexOf("_") < 0) {
+		console.log("You win!");
+	} 
+	else if (loop === guessesLeft) {
+		console.log("Sorry, you lose. Your man is hanged!");
+	}
+	else {
+
+		if (loop < guessesLeft) {
+			inquirer.prompt({
+				type: "input",
+				name: "letter",
+				message: "Enter a letter."
+			}).then(function(guess){
+				//check if the entry is a letter
+				if (!(guess.letter.match(/[a-z]/i))) { 
+					console.log("");
+					console.log("Your choice is not a letter.");
+				} 
+				// else, if the letter has already been chosen, tell them and don't add to letters chosen
+				else if (lettersGuessed.indexOf(guess.letter) > -1) {
+					console.log("");
+					console.log("You already tried that letter! Please choose a different letter.");
+				}
+				//otherwise, add the letter to letters guessed
+				else {
+					lettersGuessed.push(guess.letter);
+					loop++;
+					//run functions to check letter and display word
+					//checkLetter();
+
+				}
+				console.log("");
+				console.log("Letters guessed: " + lettersGuessed);
+				console.log("");
+
+				userLetters(loop);
+			//end of then function	
+			});
+		//end of if loop statment
+		}
 	}
 //end of userletters function
 }
@@ -67,21 +85,23 @@ var userLetters = function(loop) {
 var gameWord = new HangmanWord(currentWord, lettersGuessed);*/
 
 function checkLetter() {
+	
 	var hangWord = "";
 
 	for (var i = 0; i < currentWord.length; i++) {
 		var currentWordLetter = currentWord[i];
 
 		if (lettersGuessed.indexOf(currentWordLetter) > -1) {
-			hangWord = hangWord + currentWordLetter;
+			hangWord = hangWord + " " + currentWordLetter;
 		}
 		else {
-			hangWord = hangWord + "_ ";
+			hangWord = hangWord + " _ ";
 		}
 	}
-	console.log("Your word:" + hangWord);
+	console.log("Your word: " + hangWord);
+	console.log("");
+	return hangWord;
 }
-
 
 
 userLetters(loop);
