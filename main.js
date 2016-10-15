@@ -13,8 +13,6 @@ var currentWord = wordFile.currentChoice;
 //store letters guessed
 var lettersGuessed = [];
 
-exports.selectedLetters = lettersGuessed;
-
 var guessesLeft = currentWord.length + 6;
 
 var loop = 0;
@@ -29,17 +27,21 @@ console.log("");
 
 var userLetters = function(loop) {
 
-	var hangWord = checkLetter();
+	//export function from word.js
+	var hangWord = checkWord.checkLetter(lettersGuessed, currentWord);
 
+	//check if there are any blanks left in the word
 	if (hangWord.indexOf("_") < 0) {
 		console.log("You win!");
 	} 
+	//check if all guessed have been used
 	else if (loop === guessesLeft) {
-		console.log("Sorry, you lose. Your man is hanged!");
+		console.log("Sorry, you lose. Your man is hanged! Your word was " + currentWord + ".");
 	}
 	else {
 
 		if (loop < guessesLeft) {
+			//prompt user to guess a new letter
 			inquirer.prompt({
 				type: "input",
 				name: "letter",
@@ -50,7 +52,12 @@ var userLetters = function(loop) {
 					console.log("");
 					console.log("Your choice is not a letter.");
 				} 
-				// else, if the letter has already been chosen, tell them and don't add to letters chosen
+				//don't allow more than one letter at a time
+				else if (guess.letter.length > 1) {
+					console.log("");
+					console.log("Please enter only one letter.");
+				}
+				// else, if the letter has already been guessed, tell them and don't add to letters guessed
 				else if (lettersGuessed.indexOf(guess.letter) > -1) {
 					console.log("");
 					console.log("You already tried that letter! Please choose a different letter.");
@@ -59,49 +66,19 @@ var userLetters = function(loop) {
 				else {
 					lettersGuessed.push(guess.letter);
 					loop++;
-					//run functions to check letter and display word
-					//checkLetter();
-
 				}
 				console.log("");
 				console.log("Letters guessed: " + lettersGuessed);
 				console.log("");
 
+				//call the function again
 				userLetters(loop);
-			//end of then function	
+			//end of then function	("end of" notes are useful for me - may not be helpful for grading)
 			});
 		//end of if loop statment
 		}
 	}
 //end of userletters function
 }
-
-
-/*function HangmanWord(word, letters) {
-	this.word = word;
-	this.letters = letters
-}
-
-var gameWord = new HangmanWord(currentWord, lettersGuessed);*/
-
-function checkLetter() {
-	
-	var hangWord = "";
-
-	for (var i = 0; i < currentWord.length; i++) {
-		var currentWordLetter = currentWord[i];
-
-		if (lettersGuessed.indexOf(currentWordLetter) > -1) {
-			hangWord = hangWord + " " + currentWordLetter;
-		}
-		else {
-			hangWord = hangWord + " _ ";
-		}
-	}
-	console.log("Your word: " + hangWord);
-	console.log("");
-	return hangWord;
-}
-
 
 userLetters(loop);

@@ -1,18 +1,23 @@
-var mainFile = require("./main.js");
-var wordFile2 = require("./game.js");
-var displayWord2 = require("./letter.js");
 
-//gets letters guessed from main file
-var userLetters = mainFile.selectedLetters;
+//require file with display letter vs. underscore function
+var getCharacter = require("./letter.js");
 
-//gets current word from game.js file
-var currentWord2 = wordFile2.currentChoice;
+var checkLetter = function(lettersGuessed, word) {
+	
+	var hangWord = "";
 
-//var guessesRemaining = currentWord2.length + 6;
+	// Iterate over each letter in the word
+	for (var i = 0; i < word.length; i++) {
+		var currentWordLetter = word[i];
 
-console.log("user letters from words.js file " + userLetters);
+		// use imported function to append either the letter itself (if it was guesssed) or a "_" if it wasn't guessed
+		hangWord = hangWord + getCharacter.characterToDisplay(lettersGuessed, currentWordLetter);
 
-exports.HangmanWord = function(word, letters) {
-	this.word = currentWord2;
-	this.letters = userLetters
+	}
+	console.log("Your word: " + hangWord);
+	console.log("");
+	return hangWord;
 }
+
+//make exportable
+exports.checkLetter = checkLetter;
