@@ -18,7 +18,7 @@ var guessesLeft = currentWord.length + 6;
 var loop = 0;
 
 //for checking - show current word
-console.log(currentWord);
+//console.log(currentWord);
 
 //print some intro text for user
 console.log("");
